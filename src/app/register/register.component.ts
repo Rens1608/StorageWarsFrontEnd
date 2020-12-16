@@ -12,7 +12,7 @@ import { Player } from '../models/player';
 
   export class RegisterComponent implements OnInit {
     player: Player;
-    form: FormGroup | undefined;
+    form!: FormGroup;
     public loginInvalid: boolean | undefined;
     private formSubmitAttempt: boolean | undefined;
     private returnUrl: string | undefined;
@@ -47,6 +47,7 @@ import { Player } from '../models/player';
               this.player.name = this.form.get('username').value;
               // @ts-ignore
               this.player.password = this.form.get('password').value;
+              this.player.balance = 100;
               this.playerService.register(this.player).subscribe(() => this.goToHomePage());
             }catch (err){
                throw err;

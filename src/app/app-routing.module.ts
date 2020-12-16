@@ -4,22 +4,24 @@ import { HomeComponent } from './home/home.component';
 import { GameComponent } from './game/game.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import {LobbyComponent} from './game/lobby/lobby.component';
 
 const routes: Routes = [
-  {
-    path: '',
+  { path: '',
     component: HomeComponent,
   },
   {
     path: 'game',
-    component: GameComponent,
+    children: [
+      { path: '', component: GameComponent, pathMatch: 'full'},
+      { path: 'started/:id', component: RegisterComponent},
+      { path: 'lobby/:id', component: LobbyComponent },
+    ]
   },
-  {
-    path: 'login',
+  { path: 'login',
     component: LoginComponent,
   },
-  {
-    path: 'register',
+  { path: 'register',
     component: RegisterComponent,
   },
 ];

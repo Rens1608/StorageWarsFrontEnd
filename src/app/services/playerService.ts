@@ -30,9 +30,6 @@ export class PlayerService {
   }
 
   public login(player: Player): Observable<Player> {
-    this.player1 = new Observable<Player>();
-    this.player1 = this.http.get<Player>(this.playerUrl + '/' + player.name + '/' + player.password);
-    console.log(this.player1);
-    return this.player1;
+    return this.http.get<Player>(this.playerUrl + '/' + player.name + '/' + player.password);
   }
 }

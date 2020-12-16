@@ -1,6 +1,6 @@
 import {Player} from './player';
 
 export class Game{
-  id: number | undefined;
+  id!: number;
   players: Player[] | undefined;
 }

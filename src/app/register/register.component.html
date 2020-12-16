@@ -4,27 +4,27 @@
         <h2>Register</h2>
         <mat-form-field class="full-width-input">
           <input matInput
-          [(ngModel)]="player.name" 
-          type="text" 
+          [(ngModel)]="player.name"
+          type="text"
           formControlName="username"
           class="form-control"
           id="username"
           name="username"
           placeholder="Enter your name"
-          required>
+          >
           <mat-error>
             Username is required
           </mat-error>
         </mat-form-field>
         <mat-form-field class="full-width-input">
           <input matInput type="password"
-          [(ngModel)]="player.password" 
+          [(ngModel)]="player.password"
           class="form-control"
           id="password"
           formControlName="password"
           name="password"
           placeholder="Enter your password "
-          required>
+          >
           <mat-error>
             Password is required
           </mat-error>

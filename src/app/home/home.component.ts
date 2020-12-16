@@ -9,21 +9,22 @@ import {Router} from '@angular/router';
 })
 export class HomeComponent implements OnInit {
   username: string | undefined;
+  balance: number | undefined;
   player: Player;
   constructor(private router: Router) {
     this.player = new Player();
   }
 
   ngOnInit(): void {
-    const retrievedItem = localStorage.getItem('currentPlayer');
-    if (retrievedItem != null ) {
-      this.player = JSON.parse(retrievedItem);
-      this.username = this.player.name;
+    const retrievedItem = sessionStorage.getItem('currentPlayer');
+    if (retrievedItem != null) {
+        console.log(retrievedItem);
+        this.player = JSON.parse(retrievedItem);
+        this.username = this.player.name;
+        this.balance = this.player.balance;
     }
     else{
-      // @ts-ignore
-      this.router.navigate('/login');
+      this.router.navigate(['/login']);
     }
   }
-
 }

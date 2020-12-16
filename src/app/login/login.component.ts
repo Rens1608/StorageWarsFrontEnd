@@ -13,11 +13,11 @@ import {first} from 'rxjs/operators';
 
 export class LoginComponent implements OnInit {
   player: Player;
-  loggedInPlayer: Player;
-  form: FormGroup;
-  public loginInvalid: boolean;
-  private formSubmitAttempt: boolean;
-  private returnUrl: string;
+  loggedInPlayer: Player | undefined;
+  form!: FormGroup;
+  public loginInvalid: boolean | undefined;
+  private formSubmitAttempt: boolean | undefined;
+  private returnUrl: string | undefined;
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -26,17 +26,20 @@ export class LoginComponent implements OnInit {
       this.player = new Player();
   }
 
-  async login() {
+  async login(): Promise<void> {
+    // @ts-ignore
     if (this.form.valid) {
       try {
+        // @ts-ignore
         this.player.name = this.form.get('username').value;
+        // @ts-ignore
         this.player.password = this.form.get('password').value;
         this.playerService.login(this.player).pipe(first()).subscribe(data => this.loggedInPlayer = data);
         setTimeout(() => {
           console.log(this.loggedInPlayer);
-          localStorage.setItem('currentPlayer', JSON.stringify(this.loggedInPlayer));
+          sessionStorage.setItem('currentPlayer', JSON.stringify(this.loggedInPlayer));
           this.gotoHomePage();
-        }, 500);
+        }, 1000);
         } catch (err) {
           this.loginInvalid = true;
         }
@@ -45,7 +48,7 @@ export class LoginComponent implements OnInit {
       }
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.loginInvalid = false;
     this.formSubmitAttempt = false;
     this.login();
@@ -63,8 +66,8 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  toRegister(){
-    this.router.navigate(["/register"]);
+  toRegister(): void{
+    this.router.navigate(['/register']);
   }
 
 }

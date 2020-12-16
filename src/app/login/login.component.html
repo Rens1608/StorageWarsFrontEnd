@@ -3,14 +3,14 @@
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <h2>Log In</h2>
         <mat-form-field class="full-width-input">
-          <input matInput 
-          type="text" 
+          <input matInput
+          type="text"
           formControlName="username"
           class="form-control"
           id="username"
           name="username"
           placeholder="Enter your name"
-          required>
+          >
           <mat-error>
             Wrong username
           </mat-error>
@@ -22,7 +22,7 @@
           formControlName="password"
           name="password"
           placeholder="Enter your password "
-          required>
+          >
           <mat-error>
             Wrong password
           </mat-error>

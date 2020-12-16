@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {GameService} from '../services/gameService';
 import {Game} from '../models/Game';
 import {Player} from '../models/player';
-import * as SockJS from 'sockjs-client';
-import * as Stomp from 'stompjs';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-game',
@@ -12,14 +11,11 @@ import * as Stomp from 'stompjs';
 })
 export class GameComponent implements OnInit {
   game: Game;
-  player: Player;
-  private gameList: Game[];
+  player: Player | undefined;
+  gameList: Game[] | undefined;
   playerCount: number | undefined;
-  webSocketEndPoint: string = 'http://localhost:8090/storagewars';
-  topic: string = '/topic/game/1';
-  stompClient: any;
 
-  constructor(private gameService: GameService) {
+  constructor(private gameService: GameService, private router: Router) {
     this.game = new Game();
     this.game.players = [];
   }
@@ -29,44 +25,16 @@ export class GameComponent implements OnInit {
   }
 
   createGame(): void {
-    this.gameService.create(this.game);
-    this.refreshGameList();
+    this.gameService.create(this.game).subscribe(() => this.refreshGameList());
   }
   refreshGameList(): void{
     this.setPlayerCount(this.game);
     this.gameService.getAll().subscribe(data => {this.gameList = data; });
   }
 
-  joinGame(id: number): void {
-    this.connect();
-    const retrievedItem = localStorage.getItem('currentPlayer');
-    if (retrievedItem != null ) {
-      this.player = JSON.parse(retrievedItem);
-    }
-    //this.gameService.joinGame(id, this.player).subscribe(() => this.refreshGameList());
-  }
-
-  connect() {
-    console.log('Initialize WebSocket Connection');
-    const ws = new SockJS(this.webSocketEndPoint);
-    this.stompClient = Stomp.over(ws);
-    const _this = this;
-    _this.stompClient.connect({}, frame => {
-      _this.stompClient.subscribe(_this.topic, sdkEvent => {
-        _this.onMessageReceived(sdkEvent);
-      });
-    // _this.stompClient.reconnect_delay = 2000;
-   }, this.errorCallBack);
-  }
-
-  errorCallBack(error) {
-    console.log('errorCallBack -> ' + error);
-    setTimeout(() => {
-      this.connect();
-   }, 5000);
-  }
-  onMessageReceived(message) {
-    console.log('Message Recieved from Server :: ' + message);
+  joinGame(id: number | undefined): void {
+    console.log(id);
+    this.router.navigate(['game/lobby/' + id]);
   }
 
   setPlayerCount(game: Game): void {

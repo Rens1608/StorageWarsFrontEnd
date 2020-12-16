@@ -3,7 +3,7 @@
       <form>
       <h2>Available games</h2>
         <mat-nav-list>
-          <a mat-list-item *ngFor="let game of gameList; index as i" (click)="joinGame(game.id)">Game {{i+1}}<br>  Players: {{game.players.length}}</a>
+          <a mat-list-item *ngFor="let game of gameList; index as i" (click)="joinGame(game.id)">Game {{i+1}}<br></a>
          </mat-nav-list>
       <button mat-raised-button color="primary" (click)="createGame()" >Create game</button>
       </form>
