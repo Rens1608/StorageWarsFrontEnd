@@ -7,13 +7,12 @@ import { Player } from '../models/player';
 export class PlayerService {
 
   private playerUrl: string;
-  private player1: Observable<Player> | undefined;
 
   constructor(private http: HttpClient) {
     this.playerUrl = 'http://localhost:8090/player';
   }
 
-  public register(player: Player) {
+  public register(player: Player): Observable<string> {
     return this.http.post(this.playerUrl, player, {responseType: 'text'});
   }
 

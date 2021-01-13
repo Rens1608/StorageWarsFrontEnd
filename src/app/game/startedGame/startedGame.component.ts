@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Params} from '@angular/router';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Player} from '../../models/player';
 import {WsService} from '../../services/wsService';
+import {FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-started-game',
@@ -12,7 +13,8 @@ export class StartedGameComponent implements OnInit{
   id!: number;
   player!: Player;
   players: { id: number; name: string }[] = [];
-  constructor(private route: ActivatedRoute, private ws: WsService) {
+  form!: FormGroup;
+  constructor(private route: ActivatedRoute, private ws: WsService, private router: Router) {
   }
   ngOnInit(): void {
     this.route.params
@@ -21,6 +23,19 @@ export class StartedGameComponent implements OnInit{
           this.id = +params.id;
         }
       );
-    this.players = this.ws.getPlayers();
+    const retrievedItem = sessionStorage.getItem('currentPlayer');
+    if (retrievedItem != null) {
+      console.log(retrievedItem);
+      this.player = JSON.parse(retrievedItem);
+      this.players = this.ws.getPlayers();
+      this.ws.setupGame(this.id);
+    }
+    else{
+      this.router.navigate(['/login']);
+    }
+  }
+
+  onSubmit(): void {
+    this.ws.placeBid(this.form.get('bid')?.value);
   }
 }

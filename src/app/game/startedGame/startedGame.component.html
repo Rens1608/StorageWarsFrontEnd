@@ -1,9 +1,27 @@
 <div class="container mat-elevation-z8">
-  <h2>{{player.balance}}</h2>
-  <mat-list>
-    <mat-list-item *ngFor="let player in players">
-      {{player.name}}
+  <h2 class="balance">Current balance:{{this.player.balance}}</h2>
+  <mat-list class="players">
+    <mat-list-item *ngFor="let player of players">
+      <a>{{player.name}}</a>
     </mat-list-item>
   </mat-list>
-  <img src="box.jpg">
+  <img src="assets/box.jpg">
+  <form>
+  <mat-form-field class="full-width-input">
+    <input matInput
+           type="text"
+           formControlName="bid"
+           class="form-control"
+           id="bid"
+           name="bid"
+           placeholder="Enter your bid"
+    >
+    <mat-error>
+      Incorrect bid
+    </mat-error>
+  </mat-form-field>
+  <button mat-raised-button color="primary">
+    Place bid
+  </button>
+  </form>
 </div>

@@ -38,8 +38,7 @@ export class LoginComponent implements OnInit {
         setTimeout(() => {
           console.log(this.loggedInPlayer);
           sessionStorage.setItem('currentPlayer', JSON.stringify(this.loggedInPlayer));
-          this.gotoHomePage();
-        }, 1000);
+        }, 2000);
         } catch (err) {
           this.loginInvalid = true;
         }
@@ -51,10 +50,10 @@ export class LoginComponent implements OnInit {
   onSubmit(): void {
     this.loginInvalid = false;
     this.formSubmitAttempt = false;
-    this.login();
+    this.login().then(r => this.gotoHomePage());
   }
 
-  gotoHomePage() {
+  gotoHomePage(): void {
     this.router.navigate(['/']);
   }
 

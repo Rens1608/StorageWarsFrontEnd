@@ -5,6 +5,7 @@ import { GameComponent } from './game/game.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import {LobbyComponent} from './game/lobby/lobby.component';
+import {StartedGameComponent} from './game/startedGame/startedGame.component';
 
 const routes: Routes = [
   { path: '',
@@ -14,7 +15,7 @@ const routes: Routes = [
     path: 'game',
     children: [
       { path: '', component: GameComponent, pathMatch: 'full'},
-      { path: 'started/:id', component: RegisterComponent},
+      { path: 'started/:id', component: StartedGameComponent},
       { path: 'lobby/:id', component: LobbyComponent },
     ]
   },

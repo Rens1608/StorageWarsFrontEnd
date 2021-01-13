@@ -46,7 +46,7 @@ export class WsService {
         break;
       case 'STARTGAME':
         const id = JSON.parse(this.message.body.message);
-        this.router.navigate(['/game/started/' + id.toString()])
+        this.router.navigate(['/game/started/' + id.toString()]);
         break;
     }
   }
@@ -62,5 +62,12 @@ export class WsService {
 
   startGame(id: number): void{
     this.stompClient.send('/app/start/' + id, {});
+  }
+  setupGame(id: number): void{
+    this.stompClient.send('/app/setup/' + id, {});
+  }
+
+  placeBid(value: any | undefined): void {
+    //this.stompClient.send('');
   }
 }
