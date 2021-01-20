@@ -1,12 +1,13 @@
 <div class="container mat-elevation-z8">
   <h2 class="balance">Current balance:{{this.player.balance}}</h2>
+  <h2 class="balance">Highest bid: {{ws.getHighestBid()}}</h2>
   <mat-list class="players">
     <mat-list-item *ngFor="let player of players">
       <a>{{player.name}}</a>
     </mat-list-item>
   </mat-list>
   <img src="assets/box.jpg">
-  <form>
+  <form [formGroup]="form">
   <mat-form-field class="full-width-input">
     <input matInput
            type="text"
@@ -20,7 +21,7 @@
       Incorrect bid
     </mat-error>
   </mat-form-field>
-  <button mat-raised-button color="primary">
+  <button mat-raised-button color="primary" (click)="placeBid()">
     Place bid
   </button>
   </form>

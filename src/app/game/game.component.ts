@@ -21,7 +21,13 @@ export class GameComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.refreshGameList();
+    const retrievedItem = sessionStorage.getItem('currentPlayer');
+    if(retrievedItem != null){
+      this.refreshGameList();
+    }
+    else {
+      this.router.navigate(['/login']);
+    }
   }
 
   createGame(): void {

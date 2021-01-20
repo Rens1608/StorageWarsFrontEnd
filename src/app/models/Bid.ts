@@ -4,5 +4,5 @@ export class Bid {
   id: number;
   amount: number;
   time: any;
-  player: Player;
+  player: string | null;
 }

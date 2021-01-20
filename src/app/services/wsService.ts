@@ -14,9 +14,13 @@ export class WsService {
   stompClient: any;
   private message!: any;
   private players!: [];
+  private highestBid!: number;
 
   getPlayers(): { id: number; name: string; }[]{
     return this.players;
+  }
+  getHighestBid(): number{
+    return this.highestBid;
   }
 
   connect(id: number): void {
@@ -43,6 +47,8 @@ export class WsService {
         this.players = JSON.parse(this.message.body.message);
         break;
       case 'BID':
+        const bid = JSON.parse(this.message.body.message);
+        this.highestBid = bid.amount;
         break;
       case 'STARTGAME':
         const id = JSON.parse(this.message.body.message);
@@ -67,7 +73,7 @@ export class WsService {
     this.stompClient.send('/app/setup/' + id, {});
   }
 
-  placeBid(value: any | undefined): void {
-    //this.stompClient.send('');
+  placeBid(bid: any, id: number): void {
+    this.stompClient.send('/app/bid/' + id, {}, JSON.stringify(bid));
   }
 }

@@ -2,7 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Player} from '../../models/player';
 import {WsService} from '../../services/wsService';
-import {FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Bid} from '../../models/Bid';
+import {MatSnackBar, MatSnackBarModule} from '@angular/material';
 
 @Component({
   selector: 'app-started-game',
@@ -10,13 +12,19 @@ import {FormGroup} from '@angular/forms';
   styleUrls: ['./startedGame.component.scss']
 })
 export class StartedGameComponent implements OnInit{
+  bid: Bid;
   id!: number;
   player!: Player;
   players: { id: number; name: string }[] = [];
   form!: FormGroup;
-  constructor(private route: ActivatedRoute, private ws: WsService, private router: Router) {
+  constructor(private snackbar: MatSnackBar, private route: ActivatedRoute,
+              private ws: WsService, private router: Router, private fb: FormBuilder) {
+    this.bid = new Bid();
   }
   ngOnInit(): void {
+    this.form = this.fb.group({
+      bid: ['', Validators.required]
+    })
     this.route.params
       .subscribe(
         (params: Params) => {
@@ -35,7 +43,19 @@ export class StartedGameComponent implements OnInit{
     }
   }
 
-  onSubmit(): void {
-    this.ws.placeBid(this.form.get('bid')?.value);
+  placeBid(): void {
+    this.bid.amount = this.form.get('bid')?.value;
+    console.log(sessionStorage.getItem('currentPlayer'));
+    this.bid.player = this.player;
+    console.log(this.ws.getHighestBid());
+    setTimeout(() => {
+      if (this.bid.amount > this.ws.getHighestBid() || this.ws.getHighestBid() === undefined) {
+        this.player.balance -= this.form.get('bid')?.value;
+        this.ws.placeBid(this.bid, this.id);
+      }
+      else{
+        this.snackbar.open('Place a bid that is higher than the current bid', 'Got it!');
+      }
+    }, 1000);
   }
 }

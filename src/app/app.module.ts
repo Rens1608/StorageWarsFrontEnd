@@ -26,7 +26,7 @@ import {
   MatCardModule,
   MatSlideToggleModule,
   MatSelectModule,
-  MatOptionModule, MatListModule, MatFormFieldModule
+  MatOptionModule, MatListModule, MatFormFieldModule, MatSnackBarModule
 } from '@angular/material';
 import {WsService} from './services/wsService';
 import {StartedGameComponent} from './game/startedGame/startedGame.component';
@@ -63,7 +63,8 @@ import {StartedGameComponent} from './game/startedGame/startedGame.component';
     MatProgressSpinnerModule,
     MatListModule,
     MatToolbarModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatSnackBarModule,
   ],
   providers: [
     PlayerService,
